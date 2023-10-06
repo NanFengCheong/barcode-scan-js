@@ -1,6 +1,6 @@
 {
   "name": "barcode-scan-js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "repository": "https://github.com/NanFengCheong/barcode-scan-js",
   "description": "JavaScript browser-based scanner keyboard input library for seamless integration of barcode and QR code scanning into web applications",
   "scripts": {
