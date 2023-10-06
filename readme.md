@@ -1,22 +1,70 @@
-# Barcode Scan JavaScript Library
+### Barcode-Scan Custom Element
 
-A JavaScript library for integrating barcode and QR code scanning into web applications using a scanner-like keyboard input. This library provides a customizable element, `barcode-scan`, that can be easily integrated into your web projects.
+The `barcode-scan` custom element is designed to simplify the process of scanning and validating barcodes in web applications. It listens for keyboard input and triggers a custom event, providing information about the scanned barcode's validity and other details.
 
-## Features
+#### Installation
 
-- Seamless integration of barcode and QR code scanning into web applications.
-- Customizable configuration for different scanning requirements.
-- Event-driven architecture for handling scan results.
-- Supports specifying minimum and maximum barcode lengths.
-- Ignores specified input elements to prevent interference with user input.
+You can install the `barcode-scan` custom element via npm:
 
-## Installation
-
+```bash
 npm install barcode-scan-js
+```
 
-## Usage
+#### Stackblitz Demo
 
-1. Import the library in your HTML file:
+https://stackblitz.com/edit/js-j8zukx?file=index.js,index.html
+
+#### Usage
+
+1. Include the `barcode-scan` custom element in your HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... -->
+</head>
+<body>
+    <barcode-scan></barcode-scan>
+    <!-- ... -->
+</body>
+</html>
+```
+
+2. Configure the element by setting its attributes or properties. You can configure it using a JSON string in the `config` attribute. Here's an example configuration:
+
+```html
+<barcode-scan config='{"minLength": 8, "maxLength": 12, "scanEndsWithKey": "Enter"}'></barcode-scan>
+```
+
+The available configuration options are:
+
+- `minLength` (optional): The minimum length of a valid barcode (default: 1).
+- `maxLength` (optional): The maximum length of a valid barcode (default: 14).
+- `scanEndsWithKey` (optional): The key that indicates the end of a barcode scan (default: empty string).
+- `scanTimeoutMs` (optional): The timeout (in milliseconds) to consider the input as a complete barcode (default: 3000).
+- `ignoreOverElements` (optional): An array of HTML tag names to ignore when scanning (default: ["INPUT"]).
+
+3. Listen for the `scan` event to receive barcode scan results:
+
+```javascript
+document.querySelector('barcode-scan').addEventListener('scan', (event) => {
+    const scanResult = event.detail;
+    if (scanResult.isValid) {
+        console.log(`Valid barcode scanned: ${scanResult.code}`);
+    } else {
+        console.error(`Invalid barcode scanned: ${scanResult.code}, Error: ${scanResult.errorMessage}`);
+    }
+});
+```
+
+The `scan` event provides detailed information about the scanned barcode, including its code, length, validity, time taken to scan, cleaned code, and configuration.
+
+4. That's it! You can now use the `barcode-scan` custom element to scan and validate barcodes in your web application.
+
+### Example
+
+Here's a simple example of how to use the `barcode-scan` custom element in an HTML file:
 
 ```html
 <!DOCTYPE html>
@@ -24,59 +72,30 @@ npm install barcode-scan-js
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Scan Demo</title>
+    <title>Barcode Scanner</title>
 </head>
 <body>
-    <!-- Add the barcode-scan element -->
-    <barcode-scan></barcode-scan>
+    <h1>Barcode Scanner</h1>
+    <barcode-scan config='{"minLength": 6, "maxLength": 10, "scanEndsWithKey": "Enter"}'></barcode-scan>
 
-    <script src="main.js"></script>
+    <div id="scan-result"></div>
+
+    <script>
+        const scanResultElement = document.getElementById('scan-result');
+
+        document.querySelector('barcode-scan').addEventListener('scan', (event) => {
+            const scanResult = event.detail;
+            if (scanResult.isValid) {
+                scanResultElement.innerHTML = `Valid barcode scanned: ${scanResult.code}`;
+            } else {
+                scanResultElement.innerHTML = `Invalid barcode scanned: ${scanResult.code}, Error: ${scanResult.errorMessage}`;
+            }
+        });
+    </script>
 </body>
 </html>
-
 ```
 
-2. Use the `<barcode-scan>` element in your HTML:
+This example sets up the `barcode-scan` custom element with a configuration and listens for the `scan` event to display the scan result on the page.
 
-```html
-<barcode-scan config='{"minLength": 4, "maxLength": 12, "toUpper": true}'></barcode-scan>
-```
-
-3. Add an event listener in your JavaScript to capture scan results:
-
-```javascript
-// Import the library
-import 'barcode-scan-js';
-
-// Get a reference to the barcode-scan element
-const barcodeScanner = document.querySelector('barcode-scan');
-
-// Add an event listener to capture scan results
-barcodeScanner.addEventListener('scan', (event) => {
-  const scanResult = event.detail;
-  // Handle the scan result here
-  console.log('Scanned Barcode:', scanResult.code);
-  console.log('Is Valid:', scanResult.isValid);
-  console.log('Time Taken (ms):', scanResult.timeTakenMs);
-  console.log('Cleaned Code:', scanResult.cleanedCode);
-});
-
-```
-
-## Configuration
-
-The `<barcode-scan>` element supports the following configuration options:
-
-- `minLength`: Minimum length of the scanned barcode (default: 1).
-- `maxLength`: Maximum length of the scanned barcode (default: 14).
-- `codeStartsWith`: Start of the barcode string (default: empty string).
-- `codeEndsWith`: End of the barcode string (default: empty string).
-- `scanTimeoutMs`: Timeout (in milliseconds) to consider the input as a scan (default: 3000ms).
-- `ignoreOverElements`: An array of HTML tag names to ignore when scanning (default: `['INPUT']`).
-- `toUpper`: Convert scanned text to uppercase (default: false).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-Feel free to modify and expand this README to suit your project's specific needs.
+Feel free to customize the configuration and event handling to fit your specific barcode scanning needs.
