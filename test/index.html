@@ -1,0 +1,58 @@
+<barcode-scan
+  config='{
+    "minLength": 3,
+    "maxLength": 14,
+    "scanEndsWithKey": "Enter",
+    "scanTimeoutMs": 3000,
+    "ignoreOverElements": ["INPUT"]
+  }'
+></barcode-scan>
+<script src="../lib/index.js"></script>
+<script>
+// Get a reference to the barcode-scan element
+const barcodeScanner = document.querySelector('barcode-scan');
+console.log(barcodeScanner)
+// Add an event listener to capture scan results
+barcodeScanner.addEventListener('scan', (event) => {
+    console.log('Scanned event:', event.detail);
+  const scanResult = event.detail;
+  // Handle the scan result here
+  console.log('Scanned Barcode:', scanResult.code);
+  console.log('Is Valid:', scanResult.isValid);
+  console.log('Time Taken (ms):', scanResult.timeTakenMs);
+  console.log('Cleaned Code:', scanResult.cleanedCode);
+});
+
+function onScan(event){
+    console.log('Scanned event:', event.detail);
+  const scanResult = event.detail;
+  // Handle the scan result here
+  console.log('Scanned Barcode:', scanResult.code);
+  console.log('Is Valid:', scanResult.isValid);
+  console.log('Time Taken (ms):', scanResult.timeTakenMs);
+  console.log('Cleaned Code:', scanResult.cleanedCode);
+};
+
+function simulate(mStringOrArray) {
+    console.log('Simulate Barcode:', mStringOrArray);
+  if (Array.isArray(mStringOrArray)) {
+    mStringOrArray.forEach(function (mKey) {
+      var oEventProps = {};
+      if (
+        (typeof mKey === 'object' || typeof mKey === 'function') &&
+        mKey !== null
+      ) {
+        oEventProps = mKey;
+      } else {
+        oEventProps.key = mKey;
+      }
+      var oEvent = new KeyboardEvent('keydown', oEventProps);
+      document.dispatchEvent(oEvent);
+    });
+  }
+  return this;
+}
+
+simulate(['S','a','m','p','l','e','C','o','d','e','']);
+
+</script>

@@ -1,0 +1,33 @@
+{
+  "name": "barcode-scan-js",
+  "version": "0.0.5",
+  "description": "JavaScript browser-based scanner keyboard input library for seamless integration of barcode and QR code scanning into web applications",
+  "scripts": {
+    "build": "tsc",
+    "build:publish": "npm run build && npm publish"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "author": "nanfeng",
+  "license": "MIT",
+  "keywords": [
+    "barcode",
+    "scanner",
+    "keyboard",
+    "input",
+    "web",
+    "integration",
+    "library",
+    "barcode scanning",
+    "JavaScript",
+    "npm",
+    "web development",
+    "browser",
+    "input handling",
+    "scan data",
+    "barcode reader"
+  ]
+}
