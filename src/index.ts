@@ -49,7 +49,6 @@ class BarcodeScanElement extends HTMLElement {
         if (inputConfig) {
             try {
                 this.config = Object.assign(this.config, JSON.parse(inputConfig));
-
                 this.config.codeRegex = this.config.codeRegex ?? new RegExp(
                     `^${'(.'}${this.config.minLength!},${this.config.maxLength! - this.config.scanEndsWithKey!.length}${')'}
                     ${this.config.scanEndsWithKey}$`,
@@ -95,7 +94,7 @@ class BarcodeScanElement extends HTMLElement {
         if (!this.startTime) return;
         const endTime = performance.now();
         const timeTakenMs = Math.round(endTime - this.startTime);
-        const cleanedCode = this.inputKeys.filter(Boolean).filter(f => f != 'Shift' && f != 'Enter').join('')
+        const cleanedCode = this.inputKeys.filter(Boolean).filter(f => f != 'Shift' && f != 'Enter' && f != 'NumLock' && f != 'ArrowDown').join('');
         let errorMessage = '';
         switch (true) {
             case cleanedCode.length < this.config.minLength!:
